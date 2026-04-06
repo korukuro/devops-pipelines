@@ -1,0 +1,32 @@
+# Name of the workflow (shown in GitHub Actions tab)
+name: CI pipeline
+
+# Trigger: run this workflow when code is pushed to main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build: # Job name (can be anything)
+
+    # Use latest Ubuntu virtual machine
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Download your repository code into the runner
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      # Step 2: Install Node.js (version 16)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # Step 3: Install project dependencies from package.json
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run tests (defined in package.json scripts)
+      - name: Run tests
+        run: npm test
